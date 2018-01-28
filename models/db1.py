@@ -26,10 +26,10 @@ current.myconf_env = myconf_env
 # set db connection
 if not request.env.web2py_runtime_gae:
     # if NOT running on Google App Engine use SQLite or other DB
-    db = DAL(myconf.get(myconf_env + 'db.uri'),
-             pool_size=myconf.get(myconf_env + 'db.pool_size'),
-             migrate_enabled=myconf.get(myconf_env + 'db.migrate'),
-             check_reserved=['mysql', 'postgres'],  # ['all'])
+    db = DAL(myconf.get(f'{myconf_env}db.uri'),
+             pool_size=myconf.get(f'{myconf_env}db.pool_size'),
+             migrate_enabled=myconf.get(f'{myconf_env}db.migrate'),
+             check_reserved=['mysql', 'postgres', 'sqlite'],  # ['all']
              lazy_tables=True)
 else:
     # connect to Google BigTable (optional 'google:datastore://namespace')
@@ -58,7 +58,7 @@ response.form_label_separator = myconf.get('forms.separator') or ''
 
 from gluon.tools import Auth, Service, PluginManager
 
-auth = Auth(db, host_names=myconf.get(myconf_env + 'host.name'))
+auth = Auth(db, host_names=myconf.get(f'{myconf_env}host.name'))
 service = Service()
 plugins = PluginManager()
 
@@ -82,11 +82,11 @@ db.auth_user._format = '%(first_name)s %(last_name)s (%(id)s)'  # defaults to '%
 
 # configure email
 mail = auth.settings.mailer
-mail.settings.server = myconf.get(myconf_env + 'smtp.server')
-mail.settings.sender = myconf.get(myconf_env + 'smtp.sender')
-mail.settings.login = myconf.get(myconf_env + 'smtp.login')
-mail.settings.tls = myconf.get(myconf_env + 'smtp.tls') or False
-mail.settings.ssl = myconf.get(myconf_env + 'smtp.ssl') or False
+mail.settings.server = myconf.get(f'{myconf_env}smtp.server')
+mail.settings.sender = myconf.get(f'{myconf_env}smtp.sender')
+mail.settings.login = myconf.get(f'{myconf_env}smtp.login')
+mail.settings.tls = myconf.get(f'{myconf_env}smtp.tls') or False
+mail.settings.ssl = myconf.get(f'{myconf_env}smtp.ssl') or False
 
 # configure auth policy
 auth.settings.actions_disabled.append('register')

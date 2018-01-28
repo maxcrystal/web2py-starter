@@ -359,6 +359,7 @@ desired effect
         {{if left_sidebar_enabled:}}
           <div class="col-md-4 col-sm-6 col-xs-12">
               {{block left_sidebar}}
+              LEFT SIDEBAR
               {{end}}
           </div>
         {{pass}}
@@ -404,7 +405,7 @@ desired effect
       </strong> All rights reserved.
     </div>
 
-    {{if request.is_local:}}
+    {{if request.is_local or auth.user and is_user_member('superadmin'):}}
     <div id="response-toolbar">
       <hr>
       {{=response.toolbar()}}
@@ -430,7 +431,7 @@ desired effect
         <h3 class="control-sidebar-heading">Recent Activity</h3>
         <ul class="control-sidebar-menu">
           <li>
-            <a href="javascript::;">
+            <a href="javascript:;">
               <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
               <div class="menu-info">
@@ -446,7 +447,7 @@ desired effect
         <h3 class="control-sidebar-heading">Tasks Progress</h3>
         <ul class="control-sidebar-menu">
           <li>
-            <a href="javascript::;">
+            <a href="javascript:;">
               <h4 class="control-sidebar-subheading">
                 Deal: Big Miami Property Due Diligence
                 <span class="label label-danger pull-right">70%</span>
