@@ -3,6 +3,7 @@
 {{from bookmark import Bookmark}}
 {{#response.bookmark = bookmark.create()}}
 {{response.bookmark = Bookmark()}}
+{{response.skin = 'skin-blue'}}
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
-  <link rel="stylesheet" href="{{=URL('static','css/skins/skin-blue.min.css')}}">
+  <link rel="stylesheet" href="{{=URL('static',f'css/skins/{response.skin}.min.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -88,7 +89,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="fixed hold-transition skin-blue sidebar-mini">
+<body class="fixed hold-transition {{=response.skin}} sidebar-mini">
 
 <div class="wrapper">
 
@@ -405,7 +406,7 @@ desired effect
       </strong> All rights reserved.
     </div>
 
-    {{if request.is_local or auth.user and is_user_member('superadmin'):}}
+    {{if request.is_local or (auth.user and is_user_member('Super Admin')):}}
     <div id="response-toolbar">
       <hr>
       {{=response.toolbar()}}
