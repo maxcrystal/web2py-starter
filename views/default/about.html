@@ -4,16 +4,40 @@
 
 <p>blah blah blah</p>
 
+<div class="container-fluid">
+    <input type="text" id="slider" value="" />
+</div>
+
+{{block head}}
+<link rel="stylesheet" href="{{=URL('static','plugins/ionslider/ion.rangeSlider.css')}}">
+<link rel="stylesheet" href="{{=URL('static','plugins/ionslider/ion.rangeSlider.skinFlat.css')}}">
+<script src="{{=URL('static','plugins/ionslider/ion.rangeSlider.min.js')}}"></script>
+{{end head}}
+
+{{block js}}
+<script>
+$("#slider").ionRangeSlider({
+    type: "double",
+    grid: true,
+    min: 0,
+    max: 1000,
+    from: 200,
+    to: 800,
+    prefix: "$"
+});
+</script>
+{{end}}
+
 {{block right_sidebar}}
-  <br/>
-  <div class="panel panel-info">
+<br/>
+<div class="panel panel-info">
     <div class="panel-heading"><h3 class="panel-title">
         <i class="glyphicon glyphicon-cog"></i>
-        {{=T("More Information")}}
-      </h3></div>
+    {{=T("More Information")}}
+    </h3></div>
     <ul class="list-group">
-      <li class="list-group-item"><a href="{{=URL('privacy')}}">Privacy Policy</a></li>
-      <li class="list-group-item"><a href="{{=URL('tou')}}">Terms of Use</a></li>
+        <li class="list-group-item"><a href="{{=URL('privacy')}}">Privacy Policy</a></li>
+        <li class="list-group-item"><a href="{{=URL('tou')}}">Terms of Use</a></li>
     </ul>
-  </div>
+</div>
 {{end}}

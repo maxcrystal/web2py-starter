@@ -19,7 +19,7 @@
   <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
   <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.ico')}}">
 
-  <!-- Bootstrap 3.3.5 -->
+  <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="{{=URL('static','plugins/bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -67,6 +67,9 @@
   middle_column = {0: mc0, 1: mc1, 2: mc2}[
   (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
   }}
+
+  {{block head}}
+  {{end head}}
 
 </head>
 <!--
@@ -360,7 +363,6 @@ desired effect
         {{if left_sidebar_enabled:}}
           <div class="col-md-4 col-sm-6 col-xs-12">
               {{block left_sidebar}}
-              LEFT SIDEBAR
               {{end}}
           </div>
         {{pass}}
@@ -507,6 +509,9 @@ desired effect
 </div><!-- /.wrapper -->
 
 <!-- REQUIRED JS SCRIPTS *** moved to head *** -->
+
+{{block js}}
+{{end js}}
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
