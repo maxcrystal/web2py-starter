@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{=URL('static','css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -46,8 +48,8 @@
   <script src="{{=URL('static','plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
   <!-- Bootstrap 3.3.5 -->
   <script src="{{=URL('static','plugins/bootstrap/js/bootstrap.min.js')}}"></script>
-  <!-- AdminLTE App -->
-  <script src="{{=URL('static','js/app.min.js')}}"></script>
+  <!-- AdminLTE App 2.4 -->
+  <script src="{{=URL('static','js/adminlte.min.js')}}"></script>
 
   <link rel="stylesheet" href="{{=URL('static','css/web2py.css')}}">
   <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}">
@@ -115,7 +117,7 @@ desired effect
     <nav class="navbar navbar-static-top" role="navigation">
 
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 
@@ -367,7 +369,7 @@ desired effect
           </div>
         {{pass}}
 
-        <div class="col-md-8 col-sm-6 col-xs-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
           {{block center}}
             {{include}}
           {{end}}
