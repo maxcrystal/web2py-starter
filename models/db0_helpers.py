@@ -141,8 +141,10 @@ def datepicker_widget(**settings):
         # default format “mm/dd/yyyy”
 
         data_attributes = {}
-        data_attributes['date-format'] = 'yyyy-mm-dd'
-        for item in settings.iteritems():
+        data_attributes['date-format'] = 'dd.mm.yyyy'
+        data_attributes['date-week-start'] = 1
+        data_attributes['date-calendar-weeks'] = True
+        for item in settings.items():
             data_attributes['date-'+item[0].replace('_', '-')] = item[1]
 
         return INPUT(

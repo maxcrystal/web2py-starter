@@ -98,7 +98,7 @@ def edit():
     return dict(item_name=table._singular, form=form)
 
 
-@auth.requires_membership('admin')
+@auth.requires_membership('Admin')
 def populate():
     query = table
     set = db(query)
@@ -109,7 +109,7 @@ def populate():
     redirect(URL('list'))
 
 
-@auth.requires_membership('admin')
+@auth.requires_membership('Admin')
 def update():
     query = table
     set = db(query)

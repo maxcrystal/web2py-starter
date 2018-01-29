@@ -33,6 +33,7 @@ db.define_table(
     'dog',
 
     Field('title', length=100, requires=[IS_NOT_EMPTY(), Titleize()]),
+    Field('birth_date', 'date', requires=IS_DATE(format='%d.%m.%Y'), widget=datepicker_widget()),
 
     auth.signature,
     singular='Dog', plural='Dogs',
