@@ -14,7 +14,7 @@
 <script src="{{=URL('static','plugins/ionslider/ion.rangeSlider.min.js')}}"></script>
 {{end head}}
 
-{{block js}}
+{{block page_js}}
 <script>
 $("#slider").ionRangeSlider({
     type: "double",
@@ -26,7 +26,7 @@ $("#slider").ionRangeSlider({
     prefix: "$"
 });
 </script>
-{{end}}
+{{end page_js}}
 
 {{block right_sidebar}}
 <br/>

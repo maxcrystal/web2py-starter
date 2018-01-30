@@ -117,28 +117,14 @@ def widget(type='string', placeholder=''):
     return lambda field, value: SQLFORM.widgets[type].widget(field, value, _placeholder=placeholder)
 
 
-def mcg_date_widget(field, value):
-    return INPUT(_name=field.name,
-                 _id="%s_%s" % (field._tablename, field.name),
-                 _class='form-control ' + field.type,
-                 _value=value,
-                 data={
-                     'date-format': 'mm/yyyy',
-                     'date-min-view-mode': '1'
-                 },
-                 requires=field.requires)
-
-
-def datepicker_widget(**settings):
+def datepicker_widget(placeholder='', **settings):
 
     def widget(field, value, **attributes):
 
-        default = {'value': value}
+        default = {'_value': value}
 
         attributes = FormWidget._attributes(field, default, **attributes)
         attributes['_class'] = 'form-control date'
-
-        # default format “mm/dd/yyyy”
 
         data_attributes = {}
         data_attributes['date-format'] = 'dd.mm.yyyy'
@@ -149,6 +135,28 @@ def datepicker_widget(**settings):
 
         return INPUT(
             data=data_attributes,
+            _placeholder=placeholder,
+            **attributes
+        )
+
+    return widget
+
+
+def clockpicker_widget(placeholder='', **settings):
+
+    def widget(field, value, **attributes):
+
+        default = {'_value': value}
+        attributes = FormWidget._attributes(field, default, **attributes)
+        attributes['_class'] = 'form-control time'
+
+        data_attributes = {}
+        for item in settings.items():
+            data_attributes[item[0].replace('_', '-')] = item[1]
+
+        return INPUT(
+            data=data_attributes,
+            _placeholder=placeholder,
             **attributes
         )
 

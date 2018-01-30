@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 STATUSES = [
     ['1', 'Happy'],
@@ -33,7 +34,14 @@ db.define_table(
     'dog',
 
     Field('title', length=100, requires=[IS_NOT_EMPTY(), Titleize()]),
-    Field('birth_date', 'date', requires=IS_DATE(format='%d.%m.%Y'), widget=datepicker_widget()),
+    Field('birth_date', 'date',
+          requires=IS_DATE(format='%d.%m.%Y'),
+          # default=datetime.datetime.now().strftime('%d.%m.%Y'),
+          widget=datepicker_widget(placeholder='30.03.1980')),
+    Field('birth_time', 'time',
+          requires=IS_TIME(),
+          default=datetime.datetime.now().strftime('%H:%M'),
+          widget=clockpicker_widget()),
 
     auth.signature,
     singular='Dog', plural='Dogs',

@@ -188,24 +188,24 @@
                 if (this.checked)
                     if (!web2py.confirm(confirm_message)) this.checked = false;
             });
-            var datetime_format = !web2py.isUndefined(w2p_ajax_datetime_format) ? w2p_ajax_datetime_format :
-                '%Y-%m-%d %H:%M:%S';
-            doc.on('click', 'input.datetime', function () {
-                var tformat = $(this).data('w2p_datetime_format');
-                var active = $(this).data('w2p_datetime');
-                var format = !web2py.isUndefined(tformat) ? tformat : datetime_format;
-                if (active === undefined) {
-                    Calendar.setup({
-                        inputField: this,
-                        ifFormat: format,
-                        showsTime: true,
-                        timeFormat: '24'
-                    });
-                    $(this).attr('autocomplete', 'off');
-                    $(this).data('w2p_datetime', 1);
-                    $(this).trigger('click');
-                }
-            });
+            // var datetime_format = !web2py.isUndefined(w2p_ajax_datetime_format) ? w2p_ajax_datetime_format :
+            //     '%Y-%m-%d %H:%M:%S';
+            // doc.on('click', 'input.datetime', function () {
+            //     var tformat = $(this).data('w2p_datetime_format');
+            //     var active = $(this).data('w2p_datetime');
+            //     var format = !web2py.isUndefined(tformat) ? tformat : datetime_format;
+            //     if (active === undefined) {
+            //         Calendar.setup({
+            //             inputField: this,
+            //             ifFormat: format,
+            //             showsTime: true,
+            //             timeFormat: '24'
+            //         });
+            //         $(this).attr('autocomplete', 'off');
+            //         $(this).data('w2p_datetime', 1);
+            //         $(this).trigger('click');
+            //     }
+            // });
             // var date_format = !web2py.isUndefined(w2p_ajax_date_format) ? w2p_ajax_date_format : '%Y-%m-%d';
             // doc.on('click', 'input.date', function () {
             //     var tformat = $(this).data('w2p_date_format');
@@ -222,15 +222,15 @@
             //         $(this).trigger('click');
             //     }
             // });
-            doc.on('focus', 'input.time', function () {
-                var active = $(this).data('w2p_time');
-                if (web2py.isUndefined(active)) {
-                    $(this).timeEntry({
-                        spinnerImage: ''
-                    }).attr('autocomplete', 'off');
-                    $(this).data('w2p_time', 1);
-                }
-            });
+            // doc.on('focus', 'input.time', function () {
+            //     var active = $(this).data('w2p_time');
+            //     if (web2py.isUndefined(active)) {
+            //         $(this).timeEntry({
+            //             spinnerImage: ''
+            //         }).attr('autocomplete', 'off');
+            //         $(this).data('w2p_time', 1);
+            //     }
+            // });
             /* help preventing double form submission for normal form (not LOADed) */
             $(doc).on('submit', 'form', function () {
                 var submit_button = $(this).find(web2py.formInputClickSelector);
