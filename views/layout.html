@@ -216,7 +216,7 @@ desired effect
                             <li class="user-header">
                                 <img src="{{=URL('static','img/avatar5.png')}}" class="img-circle" alt="User Image">
                                 <p>
-                                    {{=auth.user.first_name}} {{=auth.user.last_name}}
+                                {{=auth.user.first_name}} {{=auth.user.last_name}}
                                     <small>{{=' | '.join(auth.user_groups.values())}}</small>
                                 </p>
                             </li>
@@ -335,19 +335,14 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <!-- response.flash message -->
-    {{if response.flash:}}
+    <!-- response.flash message -->
+    {{#if response.flash:}}
         <section class="content-header">
-            <div class="alert alert-warning alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <strong>Holy guacamole!</strong> {{=response.flash}}
-            </div>
+            <div class="w2p_flash alert alert-dismissible" role="alert" style="display: none;">{{=response.flash or ''}}</div>
         </section>
-    {{pass}}
+    {{#pass}}
 
-        <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
     {{if response.view_title:}}
         <section class="content-header">
 
@@ -378,20 +373,20 @@ desired effect
             {{if left_sidebar_enabled:}}
                 <div class="col-md-4 col-sm-6 col-xs-12">
                 {{block left_sidebar}}
-              {{end}}
+                {{end}}
                 </div>
             {{pass}}
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
                 {{block center}}
-            {{include}}
-          {{end}}
+                {{include}}
+                {{end}}
                 </div>
 
             {{if right_sidebar_enabled:}}
                 <div class="col-md-4 col-sm-6 col-xs-12">
                 {{block right_sidebar}}
-              {{end}}
+                {{end}}
                 </div>
             {{pass}}
 
@@ -406,10 +401,10 @@ desired effect
     <!-- Main Footer -->
     <footer class="main-footer">
 
-        <!-- To the right -->
+    <!-- To the right -->
     {{if auth.user and is_user_member('admin'):}}
         <div class="pull-right hidden-xs">
-        {{include 'plugin_create_trello_card.html'}}
+            {{include 'plugin_create_trello_card.html'}}
             <a href="{{=URL('default', 'changelog')}}">Version {{=response.version}}</a>
         </div>
     {{pass}}
@@ -426,7 +421,7 @@ desired effect
     {{if request.is_local or (auth.user and is_user_member('Super Admin')):}}
         <div id="response-toolbar">
             <hr>
-        {{=response.toolbar()}}
+            {{=response.toolbar()}}
         </div>
     {{pass}}
 
@@ -438,8 +433,8 @@ desired effect
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
             <li class="{{=user_visibility('Admin')}}"><a href="#control-sidebar-home-tab" data-toggle="tab"><i
                     class="fa fa-home"></i></a></li>
-            <li class="active"><a href="#control-sidebar-bookmarks-tab" data-toggle="tab"><i class="fa fa-bookmark"></i></a>
-            </li>
+            <li class="active"><a href="#control-sidebar-bookmarks-tab" data-toggle="tab"><i
+                    class="fa fa-bookmark"></i></a></li>
             <li class="{{=user_visibility('Admin')}}"><a href="#control-sidebar-settings-tab" data-toggle="tab"><i
                     class="fa fa-wrench"></i></a></li>
         </ul>
@@ -491,8 +486,8 @@ desired effect
 
                 <div id="bookmark_list">
                 {{if auth.user:}}
-            {{=LOAD('bookmark', 'list.load', ajax=True, content='loading ...')}}
-          {{pass}}
+                    {{=LOAD('bookmark', 'list.load', ajax=True, content='loading ...')}}
+                {{pass}}
                 </div>
 
             </div><!-- /Bookmarks tab content -->

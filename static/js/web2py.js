@@ -168,10 +168,11 @@
              * and require no dom manipulations
              */
             var doc = $(document);
-            doc.on('click', '.w2p_flash', function () {
-                var t = $(this);
-                if (t.css('top') == '0px') t.slideUp('slow');
-                else t.fadeOut();
+            doc.on('click', '.w2p_flash button.close', function () {
+                // var t = $(this);
+                // if (t.css('top') == '0px') t.slideUp('slow');
+                // else t.fadeOut();
+                web2py.hide_flash();
             });
             doc.on('keyup', 'input.integer', function () {
                 var nvalue = this.value.reverse().replace(/[^0-9\-]|\-(?=.)/g, '').reverse();
@@ -560,12 +561,20 @@
         /*helper for flash messages*/
         flash: function (message, status) {
             var flash = $('.w2p_flash');
-            web2py.hide_flash();
-            flash.html(message).addClass(status);
-            if (flash.html()) flash.append('<span id="closeflash"> &times; </span>').slideDown();
+            flash.hide();
+            if (status) {
+                flash.removeClass('alert-success alert-info alert-warning alert-danger');
+            }
+            if (message) {
+                flash.html(message).addClass(status);
+                flash.append('<button type="button" class="close" aria-label="Close">' +
+                    '<span aria-hidden="true">×</span></button>').fadeIn();
+            }
         },
         hide_flash: function () {
-            $('.w2p_flash').fadeOut(0).html('');
+            $('.w2p_flash').fadeOut(function () {
+                $(this).html('').removeClass('alert-success alert-info alert-warning alert-danger');
+            });
         },
         show_if_handler: function (target) {
             var triggers = {};
@@ -728,7 +737,9 @@
         main_hook: function () {
             var flash = $('.w2p_flash');
             flash.hide();
-            if (flash.html()) web2py.flash(flash.html());
+            if (flash.html()) {
+                web2py.flash(flash.html(), 'alert-info');
+            }
             web2py.ajax_init(document);
             web2py.event_handlers();
             web2py.a_handlers();
@@ -759,6 +770,10 @@ web2py_trap_form = jQuery.web2py.trap_form;
 popup = jQuery.web2py.popup;
 collapse = jQuery.web2py.collapse;
 fade = jQuery.web2py.fade;
+
+/*flash messages*/
+flash = jQuery.web2py.flash;
+hide_flash = jQuery.web2py.hide_flash;
 
 /* internals - shouldn't be needed
 web2py_ajax_init = jQuery.web2py.ajax_init;

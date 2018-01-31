@@ -15,6 +15,7 @@ def index():
 
 
 def about():
+    response.flash = 'Hello World!'
     response.view_title = 'About'
     return dict()
 
