@@ -2,10 +2,10 @@
 *.bak
 *.pyc
 databases/*
-private/appconfig.ini
 cache/
 errors/
 sessions/
 uploads/
 .hg/
 .idea/
+private/appconfig.ini
