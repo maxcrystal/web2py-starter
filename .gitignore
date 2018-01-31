@@ -2,7 +2,7 @@
 *.bak
 *.pyc
 databases/*
-# private/*
+private/appconfig.ini
 cache/
 errors/
 sessions/
