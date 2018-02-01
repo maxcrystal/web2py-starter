@@ -38,7 +38,7 @@
 
                     <div class="form-group">
                         <label for="card-name" class="control-label">Name:</label>
-                        <input type="text" class="form-control" id="card-name">
+                        <input type="text" class="form-control" id="card-name" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="card-description" class="control-label">Description:</label>
@@ -93,15 +93,15 @@
     $(document).ready(function () {
 
         $('#createTrelloCardModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var cardListName = button.data('card-list-name') // Extract info from data-* attributes
-            var cardListId = button.data('card-list-id') // Extract info from data-* attributes
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var cardListName = button.data('card-list-name'); // Extract info from data-* attributes
+            var cardListId = button.data('card-list-id'); // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            modal.find('.modal-title').text('Create Trello Card in the ' + cardListName + 's List')
-            modal.find('.modal-body #card-list-name').val(cardListName)
-            modal.find('.modal-body #card-list-id').val(cardListId)
+            var modal = $(this);
+            modal.find('.modal-title').text('Create Trello Card in the ' + cardListName + 's List');
+            modal.find('.modal-body #card-list-name').val(cardListName);
+            modal.find('.modal-body #card-list-id').val(cardListId);
 
             // set placeholders
             // if (cardListName == 'bug') {
@@ -119,7 +119,7 @@
                 'issue': 'What is the issue in the form of a question',
                 'idea': "What's your big idea?"
             };
-            modal.find('.modal-body #card-name').attr("placeholder", list_placeholders[cardListName])
+            modal.find('.modal-body #card-name').attr("placeholder", list_placeholders[cardListName]);
 
         });
 
@@ -155,7 +155,7 @@
 
             Trello.authorize({
                 type: popup,
-                name: 'Starter',
+                name: '{{=response.meta.name}}',
                 scope: {
                     read: true,
                     write: true
