@@ -9,7 +9,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <!-- http://dev.w3.org/html5/markup/meta.name.html -->
+    <meta name="application-name" content="{{=response.meta.name}}">
+    <!-- Speaking of Google, don't forget to set your site up: http://google.com/webmasters -->
+    <meta name="google-site-verification" content="">
 
     <title>{{=response.title or request.application}}</title>
 

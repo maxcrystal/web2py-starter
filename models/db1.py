@@ -119,15 +119,6 @@ auth.settings.create_user_groups = False  # defaults to True
 auth.settings.expiration = 60 * 60 * 24  # seconds
 
 # -------------------------------------------------------------------------
-# read more at http://dev.w3.org/html5/markup/meta.name.html
-# -------------------------------------------------------------------------
-response.meta.name = myconf.get('app.name')
-response.meta.author = myconf.get('app.author')
-response.meta.description = myconf.get('app.description')
-response.meta.keywords = myconf.get('app.keywords')
-response.meta.generator = myconf.get('app.generator')
-
-# -------------------------------------------------------------------------
 # your http://google.com/analytics id
 # -------------------------------------------------------------------------
 response.google_analytics_id = myconf.get('google.analytics_id')
