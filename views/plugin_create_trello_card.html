@@ -123,6 +123,11 @@
 
         });
 
+        // set focus to the name input field on the modal
+        $('#createTrelloCardModal').on('shown.bs.modal', function(event) {
+              $('input:visible:enabled:first', event.target).focus();
+        });
+
         // http://stackoverflow.com/questions/14375144/jquery-prevent-default-then-continue-default
         // http://www.superglobals.net/submit-form-bootstrap-modal/
 
