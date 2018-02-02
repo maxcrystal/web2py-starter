@@ -4,6 +4,16 @@ if not request.is_local:
     redirect(URL('default', 'index'))
 
 
+def reset_auth():
+    db.auth_user.truncate()
+    db.auth_group.truncate()
+    db.auth_membership.truncate()
+
+    session.flash = 'Auth DBs are reset!'
+
+    redirect(URL('default', 'index'))
+
+
 def adminuser():
     # http://stackoverflow.com/questions/10201300/how-can-i-create-new-auth-user-and-auth-group-on-web2py-running-on-google-app-en
     if not db().select(db.auth_user.ALL).first():
@@ -24,7 +34,7 @@ def adminuser():
         fixauthgroups()
         # load_sample_data()
 
-        session.flash = "Initialized!!"
+        session.flash = "Initialized!"
 
     redirect(URL('default', 'index'))
 

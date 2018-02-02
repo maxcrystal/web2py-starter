@@ -75,6 +75,8 @@ response.form_label_separator = myconf.get('forms.separator') or ''
 # create all tables needed by auth, maybe add a list of extra fields
 # -------------------------------------------------------------------------
 from gluon.tools import Auth, Service, PluginManager
+from imageutils import RESIZE
+# import os
 
 auth = Auth(db, host_names=myconf.get(f'{myconf_env}host.name'))
 service = Service()
@@ -88,8 +90,15 @@ auth.settings.extra_fields['auth_user'] = [
         # filter_out = lambda bm_str: eval(bm_str) if bm_str else {},  # could be ast.literal_eval
         represent=(lambda v, r: BEAUTIFY(eval(v)) if v else None),
         readable=False, writable=False,
-        default={}
-    )
+        default={},
+    ),
+    Field(
+        'photo', 'upload',
+        # default=os.path.join(request.folder, 'static', 'img', 'avatar5.png'),
+        # todo: implement photo to layout page
+        # todo: upload photo into blob field after my issue ticket at pydal #516 is solved
+        requires=IS_EMPTY_OR([IS_IMAGE(maxsize=(10000,10000), minsize=(50,50)), IS_EMPTY_OR(RESIZE(128,128))]),
+    ),
 ]
 
 # create all tables needed by auth

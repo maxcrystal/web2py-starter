@@ -1,2 +1,5 @@
-Write something about this app.
-Developed with web2py.
+Developed with python 3.6 and web2py.
+
+Other dependencies:
+  - Pillow https://pillow.readthedocs.io
+  - Requests http://docs.python-requests.org
