@@ -232,3 +232,19 @@ def is_user_member(*roles):
 def user_visibility(*groups):
     """in views, in class attribute: {{=user_visibility('list', 'of', 'authorized', 'user_groups')}}"""
     return 'hidden' if not is_user_member(*groups) else 'visible'
+
+
+def user_photo(user):
+    """
+    Return user photo or default avatar based on user gender
+    :param user: db.auth_user.row
+    :return: path to user photo file
+    """
+
+    if user.photo:
+        return URL('default', 'download', args=user.photo)
+    elif user.sex:
+        # todo: add no_sex default avatar :)
+        return URL('static', f'img/avatar_{user.sex.lower()}_1.png')
+    else:
+        return URL('static', 'img/boxed_bg.png')

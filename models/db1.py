@@ -94,11 +94,17 @@ auth.settings.extra_fields['auth_user'] = [
     ),
     Field(
         'photo', 'upload',
-        # default=os.path.join(request.folder, 'static', 'img', 'avatar5.png'),
+        # default=os.path.join(request.folder, 'static', 'img', 'avatar_m_1.png'),
         # todo: implement photo to layout page
         # todo: upload photo into blob field after my issue ticket at pydal #516 is solved
-        requires=IS_EMPTY_OR([IS_IMAGE(maxsize=(10000,10000), minsize=(50,50)), IS_EMPTY_OR(RESIZE(128,128))]),
+        requires=IS_EMPTY_OR([IS_IMAGE(maxsize=(10000, 10000), minsize=(50, 50)), IS_EMPTY_OR(RESIZE(128, 128))]),
+        autodelete=True,
     ),
+    Field(
+        'sex',
+        requires=IS_IN_SET(dal_list_genders),
+        default='M',
+    )
 ]
 
 # create all tables needed by auth
