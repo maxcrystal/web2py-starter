@@ -8,6 +8,12 @@
     <input type="text" id="slider" value="" />
 </div>
 
+{{if auth.user:}}
+    <p>{{=auth.user.first_name}}'s photo</p>
+    {{=IMG(_src=URL('default', 'download', args=auth.user.photo), _width='300px')}}
+{{pass}}
+
+
 {{block head}}
 <link rel="stylesheet" href="{{=URL('static','plugins/ionslider/ion.rangeSlider.css')}}">
 <link rel="stylesheet" href="{{=URL('static','plugins/ionslider/ion.rangeSlider.skinFlat.css')}}">

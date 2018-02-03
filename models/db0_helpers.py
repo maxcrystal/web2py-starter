@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from gluon.sqlhtml import FormWidget
+from gluon.sqlhtml import UploadWidget
 
+# ----------------------------------------------------------------------------------------------------------------------
 # dal represent/format helpers
-## https://mkaz.tech/python-string-format.html
-## https://pyformat.info/#number
+# ----------------------------------------------------------------------------------------------------------------------
+# https://mkaz.tech/python-string-format.html
+# https://pyformat.info/#number
 
 
 def dal_represent_number(v, r):
@@ -106,9 +109,10 @@ class Titleize(object):
         return (' '.join([w if w in articles else w.title() if w.islower() else w for w in value.split()]), None)
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 # custom forms
 # https://groups.google.com/d/msg/web2py/1yCGgKANssE/MvOL4mUqRQ4J
-
+# ----------------------------------------------------------------------------------------------------------------------
 
 def widget(type='string', placeholder=''):
     '''Allow Field('name', widget=widget('string', 'my placeholder text'))'''
@@ -118,6 +122,7 @@ def widget(type='string', placeholder=''):
 
 
 def datepicker_widget(placeholder='', **settings):
+    '''Datepicker plugin widget, also see in starter.js'''
 
     def widget(field, value, **attributes):
 
@@ -143,6 +148,7 @@ def datepicker_widget(placeholder='', **settings):
 
 
 def clockpicker_widget(placeholder='', **settings):
+    '''Clockpicker plugin widget, also see in starter.js'''
 
     def widget(field, value, **attributes):
 
@@ -163,6 +169,135 @@ def clockpicker_widget(placeholder='', **settings):
     return widget
 
 
+def upload_widget(**settings):
+    """Custom upload image widget with bootstrap style button and responsive image thumbnail
+    """
+
+    def widget(field, value, download_url=None, **attributes):
+        """Generates an INPUT file tag.
+
+        Optionally provides an A link to the file, including a checkbox so
+        the file can be deleted.
+
+        All is wrapped in a DIV.
+
+        see also: `FormWidget.widget`
+
+        Args:
+            field: the field
+            value: the field value
+            download_url: url for the file download (default = None)
+        """
+
+        # Input button styling
+        # https://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button
+        default = dict(
+            _type='file',
+            _style='display: none',
+            _onchange="$('#upload-file-info').html(this.files[0].name)",
+        )
+        attributes = UploadWidget._attributes(field, default, **attributes)
+
+        inp = DIV(
+            LABEL('Choose file...', INPUT(**attributes), _class='btn btn-default', _for=attributes['_id'], _role='button'),
+            SPAN(_class='label label-default', _id='upload-file-info', _style='margin-left: 5px;')
+        )
+
+        if download_url and value:
+            if callable(download_url):
+                url = download_url(value)
+            else:
+                url = f'{download_url}/{value}'
+            image = ''; br = BR()
+            if UploadWidget.is_image(value):
+                image = IMG(_src=url, _height='40px', _class='img-responsive')
+
+            requires = attributes["requires"]
+            if requires == [] or isinstance(requires, IS_EMPTY_OR):
+                inp = DIV(
+                    inp,
+                    br,
+                    DIV(
+                        DIV(
+                            LABEL(INPUT(_type='checkbox',
+                                        _style='display: none',
+                                        _name=field.name + UploadWidget.ID_DELETE_SUFFIX,
+                                        _id=field.name + UploadWidget.ID_DELETE_SUFFIX),
+                                  I(_class='fa fa-times'),
+                                  _class='btn btn-danger btn-sm pull-right',
+                                  _role='checkbox',
+                                  _title='Delete',
+                                  _autocomplete='off',
+                                  _style='border: 0;',
+                                  _onmouseup="var img=$('#image-label'); "
+                                             "if (img.html()==='') "
+                                             "{img.html('Marked to delete');} "
+                                             "else {img.html('');}",
+                                  data={'toggle': 'input'}),
+                            A(I(_class='glyphicon glyphicon-cloud-download'),
+                              _href=url,
+                              _class='btn btn-primary btn-sm pull-right',
+                              _role='button',
+                              _title='Download',
+                              _style='margin-right: 5px; border: 0;',
+                              ),
+                            br,
+                            LABEL(_id='image-label', _class='label label-danger'),
+                            _class='box-header box-tools pull-right',
+                        ),
+                        DIV(image, _class='box-body'),
+                        _class='box box-solid',
+                    ),
+                )
+
+            else:
+                # todo: style upload file other then image
+                inp = DIV(inp,
+                          SPAN('[',
+                               A(current.T(UploadWidget.GENERIC_DESCRIPTION), _href=url),
+                               ']', _style='white-space:nowrap'),
+                          br, image)
+        return inp
+
+    return widget
+
+
+def upload_represent(**settings):
+    """Custom image represent function with responsive image thumbnail
+    """
+
+    def represent(field, value, download_url=None):
+        """How to represent the file:
+
+        - with download url and if it is an image: <A href=...><IMG ...></A>
+        - otherwise with download url: <A href=...>file</A>
+        - otherwise: file
+
+        Args:
+            field: the field
+            value: the field value
+            download_url: url for the file download (default = None)
+        """
+
+        inp = current.T(UploadWidget.GENERIC_DESCRIPTION)
+
+        if download_url and value:
+            if callable(download_url):
+                url = download_url(value)
+            else:
+                url = download_url + '/' + value
+            if UploadWidget.is_image(value):
+                inp = IMG(_src=url, _height='40px', _class='img-responsive img-thumbnail')
+            inp = A(inp, _href=url)
+
+        return inp
+
+    return represent
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Sidebar menu
+# ----------------------------------------------------------------------------------------------------------------------
 def sidebar_menu_item(label, url=None, icon='link'):
     '''
     <li><a href="{{=URL('default','about')}}"><i class="fa fa-book"></i> <span>About</span></a></li>
@@ -207,6 +342,9 @@ def sidebar_menu_item(label, url=None, icon='link'):
 # ]
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# User helpers
+# ----------------------------------------------------------------------------------------------------------------------
 def is_user_member(*roles):
     # @auth.requires(lambda: is_user_member('arg', 'list', 'of', 'roles')
     # if is_user_member('arg', 'list', 'of', 'roles'):
