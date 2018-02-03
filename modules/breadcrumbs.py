@@ -28,24 +28,24 @@ this could be defaults for app:
 def get_context_icon():
     context_icons = {
         'context': {
-            'borrower': 'building-o',
+            'borrower': 'building',
             'investor': 'university',
             'deal': 'suitcase',
             'participant': 'university',
-            'content': 'file-text-o',
+            'content': 'file-alt',
         },
         'tools': {
-            'message': 'envelope-o',
-            'notification': 'bell-o',
-            'task': 'flag-o',
+            'message': 'envelope',
+            'notification': 'bell',
+            'task': 'flag',
             'favorite': 'heart',
         },
         'function': {
-            'dashboard': 'dashboard',
+            'dashboard': 'tachometer-alt',
             'list': 'list',
-            'create': 'pencil-square-o',
+            'create': 'edit',
             'view': 'search',
-            'edit': 'pencil-square-o',
+            'edit': 'edit',
         },
         'home': {
             'index': 'home',
@@ -54,8 +54,8 @@ def get_context_icon():
             'privacy': 'book',
         },
         'appadmin': {
-            'appadmin': 'gears',
-            'content': 'file-text-o',
+            'appadmin': 'cogs',
+            'content': 'file-alt',
             'users': 'users',
             'db': 'database',
             'auth': 'wrench',

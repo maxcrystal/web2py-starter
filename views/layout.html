@@ -27,7 +27,7 @@
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="{{=URL('static','plugins/bootstrap/css/bootstrap.min.css')}}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Fonts -->
@@ -52,7 +52,7 @@
 
     <!-- jQuery 2.1.4 -->
     <script src="{{=URL('static','plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
-    <!-- Bootstrap 3.3.5 -->
+    <!-- Bootstrap 3.3.6 -->
     <script src="{{=URL('static','plugins/bootstrap/js/bootstrap.min.js')}}"></script>
     <!-- AdminLTE App 2.4 -->
     <script src="{{=URL('static','js/adminlte.min.js')}}"></script>
@@ -63,10 +63,11 @@
     <link rel="stylesheet" href="{{=URL('static','css/contract.css')}}">
     <link rel="stylesheet" href="{{=URL('static','css/bookmark.css')}}">
 
-{{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
+{{include 'web2py_ajax.html'}} <!-- this includes jquery.js, web2py.js, strater.js and plugins' ccs/js -->
 
 {{
 # using sidebars need to know what sidebar you want to use
+# todo: implement in layout
 mc0 = 'col-md-12'
 mc1 = 'col-md-9'
 mc2 = 'col-md-6'
@@ -140,7 +141,7 @@ desired effect
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
+                            <i class="fa fa-bell"></i>
                             <span class="label label-warning">1</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -165,7 +166,7 @@ desired effect
                     <li class="dropdown tasks-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-flag-o"></i>
+                            <i class="fa fa-flag"></i>
                             <span class="label label-danger">9</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -238,7 +239,7 @@ desired effect
                                     </div>
                                     <div class="col-xs-4 text-center">
                                         <a href="{{=URL('default', 'user', args=['logout'], vars={'_next': URL()})}}"><i
-                                                class="fa fa-sign-out"></i><br>Log&nbsp;Out</a>
+                                                class="fa fa-sign-out-alt"></i><br>Log&nbsp;Out</a>
                                     </div>
                                 </div>
                                 <!-- /.row -->
@@ -249,7 +250,7 @@ desired effect
 
                     <!-- Control Sidebar Toggle Button -->
                     <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-cogs"></i></a>
                     </li>
 
                 {{else:}}
@@ -265,7 +266,7 @@ desired effect
                         {{if not 'register' in auth.settings.actions_disabled:}}
                             <li class="user-body">
                                 <a href="{{=URL('default', 'user', args=['register'], vars={'_next': URL()})}}"><i
-                                        class="fa fa-pencil-square-o"></i>Register</a>
+                                        class="fa fa-edit"></i>Register</a>
                             </li>
                         {{pass}}
                             <li class="user-body">
@@ -276,7 +277,7 @@ desired effect
                             </li>
                             <li class="user-body">
                                 <a href="{{=URL('default', 'user', args=['login'], vars={'_next': URL()})}}"><i
-                                        class="fa fa-sign-in fa-fw"></i>Log In</a>
+                                        class="fa fa-sign-in-alt fa-fw"></i>Log In</a>
                             </li>
                         </ul>
 
