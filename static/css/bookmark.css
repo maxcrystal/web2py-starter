@@ -20,12 +20,14 @@ f02e fa-bookmark
 
 .bookmark-btn.active::before {
   content: "\f02e";
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
   color: red;
   background: transparent;
 }
 
 .bookmark-btn::before {
-  content: "\f097";
-  font-family: FontAwesome;
+  content: "\f02e";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
 }
