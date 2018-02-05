@@ -173,6 +173,7 @@ def upload_widget(**settings):
     """Custom upload image widget with bootstrap style button and responsive image thumbnail
     """
 
+
     def widget(field, value, download_url=None, **attributes):
         """Generates an INPUT file tag.
 
@@ -189,18 +190,45 @@ def upload_widget(**settings):
             download_url: url for the file download (default = None)
         """
 
+        response.files.insert(1, URL('static', 'plugins/croppie/croppie.css'))
+        response.files.insert(2, URL('static', 'plugins/croppie/croppie.min.js'))
+        response.files.insert(3, URL('static', 'plugins/croppie/upload_widget.js'))
+
+        modal = XML("""
+        <div class="modal" id="croppie-modal" tabindex="-1" role="dialog" aria-labelledby="croppie-label">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="croppie-label">Edit image</h4>
+              </div>
+              <div class="modal-body">
+                <div id="croppie" style="margin: 0 auto;" class="center-block"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="croppie-result">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        """)
+
         # Input button styling
         # https://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button
         default = dict(
             _type='file',
             _style='display: none',
-            _onchange="$('#upload-file-info').html(this.files[0].name)",
+            _onchange="$('#upload-file-info').html(this.files[0].name);"
+                      # "inp=this;"
+                      "initCroppie(this);"
+                      "$('#croppie-modal').modal('show');"
         )
         attributes = UploadWidget._attributes(field, default, **attributes)
 
         inp = DIV(
             LABEL('Choose file...', INPUT(**attributes), _class='btn btn-default', _for=attributes['_id'], _role='button'),
-            SPAN(_class='label label-default', _id='upload-file-info', _style='margin-left: 5px;')
+            SPAN(_class='label label-default', _id='upload-file-info', _style='margin-left: 5px;'),
         )
 
         if download_url and value:
@@ -208,56 +236,57 @@ def upload_widget(**settings):
                 url = download_url(value)
             else:
                 url = f'{download_url}/{value}'
-            image = ''; br = BR()
+            image, delete_button, image_label, br = '', '', '', ''
             if UploadWidget.is_image(value):
                 image = IMG(_src=url, _height='40px', _class='img-responsive')
 
             requires = attributes["requires"]
-            if requires == [] or isinstance(requires, IS_EMPTY_OR):
-                inp = DIV(
-                    inp,
-                    br,
-                    DIV(
-                        DIV(
-                            LABEL(INPUT(_type='checkbox',
-                                        _style='display: none',
-                                        _name=field.name + UploadWidget.ID_DELETE_SUFFIX,
-                                        _id=field.name + UploadWidget.ID_DELETE_SUFFIX),
-                                  I(_class='fa fa-times'),
-                                  _class='btn btn-danger btn-sm pull-right',
-                                  _role='checkbox',
-                                  _title='Delete',
-                                  _autocomplete='off',
-                                  _style='border: 0;',
-                                  _onmouseup="var img=$('#image-label'); "
-                                             "if (img.html()==='') "
-                                             "{img.html('Marked to delete');} "
-                                             "else {img.html('');}",
-                                  data={'toggle': 'input'}),
-                            A(I(_class='glyphicon glyphicon-cloud-download'),
-                              _href=url,
-                              _class='btn btn-primary btn-sm pull-right',
-                              _role='button',
-                              _title='Download',
-                              _style='margin-right: 5px; border: 0;',
-                              ),
-                            br,
-                            LABEL(_id='image-label', _class='label label-danger'),
-                            _class='box-header box-tools pull-right',
-                        ),
-                        DIV(image, _class='box-body'),
-                        _class='box box-solid',
-                    ),
-                )
 
-            else:
-                # todo: style upload file other then image
-                inp = DIV(inp,
-                          SPAN('[',
-                               A(current.T(UploadWidget.GENERIC_DESCRIPTION), _href=url),
-                               ']', _style='white-space:nowrap'),
-                          br, image)
-        return inp
+            # todo: style upload file other then images
+            if requires == [] or isinstance(requires, IS_EMPTY_OR):
+                br = BR()
+                # Delete image button changes #image-label html content
+                delete_button = LABEL(INPUT(_type='checkbox',
+                                            _style='display: none',
+                                            _name=field.name + UploadWidget.ID_DELETE_SUFFIX,
+                                            _id=field.name + UploadWidget.ID_DELETE_SUFFIX),
+                                      I(_class='fa fa-times'),
+                                      _class='btn btn-danger btn-sm pull-right',
+                                      _role='checkbox',
+                                      _title='Delete',
+                                      _autocomplete='off',
+                                      _style='border: 0;',
+                                      _onmouseup="var img=$('#image-label'); "
+                                                 "if (img.html()==='') "
+                                                 "{img.html('Marked to delete');} "
+                                                 "else {img.html('');}",
+                                      data={'toggle': 'input'})
+                image_label = LABEL(_id='image-label', _class='label label-danger')
+
+            inp = DIV(
+                inp,
+                BR(),
+                DIV(
+                    DIV(
+                        delete_button,
+                        # Download image button
+                        A(I(_class='glyphicon glyphicon-cloud-download'),
+                          _href=url,
+                          _class='btn btn-primary btn-sm pull-right',
+                          _role='button',
+                          _title='Download',
+                          _style='margin-right: 5px; border: 0;',
+                          ),
+                        br,
+                        image_label,
+                        _class='box-header box-tools pull-right',
+                    ),
+                    DIV(image, _class='box-body'),
+                    _class='box box-solid',
+                ),
+            )
+
+        return DIV(modal, inp)
 
     return widget
 
