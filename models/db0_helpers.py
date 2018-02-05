@@ -175,7 +175,7 @@ def upload_image_widget(**settings):
 
     response.files.insert(1, URL('static', 'plugins/croppie/croppie.css'))
     response.files.insert(2, URL('static', 'plugins/croppie/croppie.min.js'))
-    response.files.insert(3, URL('static', 'plugins/croppie/upload_widget.js'))
+    response.files.insert(3, URL('static', 'plugins/croppie/upload_image_widget.js'))
 
     def widget(field, value, download_url=None, **attributes):
         """Generates an INPUT file tag.
