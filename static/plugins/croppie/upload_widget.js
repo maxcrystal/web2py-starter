@@ -1,42 +1,33 @@
 // todo: add formdata is supported, see admin/static/js/web2py.js
 
 function initCroppie(inp) {
-    var imageFile;
-    var uploadCrop;
-    var uploadForm;
-    var formData = new FormData();
 
-    console.log('document ready!');
+    var uploadForm = inp.closest('form');
+    var imageFile = inp.files[0];
+    var uploadCrop = $('#croppie');
+    var formData = new FormData();
+    var croppedImage;
+    var croppedImageName;
 
     $('#croppie-modal').on('shown.bs.modal', function (e) {
-
-        uploadForm = inp.closest('form');
-        console.log(uploadForm.name);
-        imageFile = inp.files[0];
-        console.log(imageFile);
 
         readFile(imageFile);
         formSubmitListen(uploadForm);
     });
 
-    $('#croppie-result').on('click', function (e) {
+    $('#croppie-modal').on('hide.bs.modal', function (e) {
 
         uploadCrop.croppie('result', {
             size: 'viewport',
             type: 'blob',
             format: 'jpeg'
-
         }).then(function (resp) {
-            formData = new FormData(uploadForm);
-
             // file extension must match croppie result file type
-            var fileName = imageFile.name.substr(0, imageFile.name.lastIndexOf(".")) + "_cropped.jpg";
+            croppedImageName = imageFile.name.substr(0, imageFile.name.lastIndexOf(".")) + "_cropped.jpg";
+            croppedImage = resp;
 
-            formData.delete(inp.name);
-            formData.append(inp.name, resp, fileName);
-            $('#upload-file-info').html(fileName);  // set label html to new filename
-
-            console.log(inp.formAction);
+            $('#upload-file-info').html(croppedImageName);  // set label html to new filename
+            // $(inp).remove();
         });
     });
 
@@ -45,12 +36,11 @@ function initCroppie(inp) {
         if (input) {
             var reader = new FileReader();
 
-            uploadCrop = $('#croppie');
             uploadCrop.html('');  // clear <div id='croppie'> if it stores image processed before
 
             uploadCrop.croppie({
-                viewport: {width: 250, height: 250},
-                boundary: {width: 300, height: 300},
+                viewport: {width: 263, height: 263},
+                boundary: {width: 350, height: 350},
                 enableExif: true
             });
 
@@ -59,44 +49,52 @@ function initCroppie(inp) {
                 $('#croppie').addClass('ready');
 
                 uploadCrop.croppie('bind', {
-                    url: e.target.result
+                    url: e.target.result,
                 }).then(function () {
-                    console.log('jQuery bind complete');
+                    // console.log('jQuery bind complete');
                 });
             };
-
             reader.readAsDataURL(input);
         }
         else {
-            console.log("Sorry - Your browser doesn't support the FileReader API");
+            console.log("Sorry - your browser doesn't support the FileReader API");
         }
     }
 
 
     function formSubmitListen(f) {
-        $(f).on('submit', function (e) {
+        $(f).on('submit', function (e, done) {
 
-            e.preventDefault();
+            done = done || false;
 
-            $.ajax('#', {//inp.formAction, {
-                method: "POST",
-                // contentType: "multipart/form-data",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data, status, xhr) {
-                    console.log(status);
-                    console.log('Upload success');
-                },
-                error: function () {
-                    console.log('Upload error');
-                }
-            });
-
-            formData = new FormData();
-
+            if (!done) {
+                $(inp).remove();
+                formData = new FormData(uploadForm);
+                formData.append(inp.name, croppedImage, croppedImageName);
+                $.ajax(inp.formAction, {
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, status, xhr) {
+                        console.log('Upload success'); // todo
+                    },
+                    error: function (data, status, xhr) {
+                        console.log('Upload error'); // todo
+                    }
+                }).then(function () {
+                    $(e.currentTarget).trigger(e.type, true);
+                });
+            } else {
+                // todo: check for possible error (missing <input> if the form is not reloaded (?)
+            }
         });
     }
+
+
+    // Show Croppie modal window
+    $('#croppie-modal').modal('show');
+
 }
 
 

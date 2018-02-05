@@ -169,10 +169,13 @@ def clockpicker_widget(placeholder='', **settings):
     return widget
 
 
-def upload_widget(**settings):
+def upload_image_widget(**settings):
     """Custom upload image widget with bootstrap style button and responsive image thumbnail
     """
 
+    response.files.insert(1, URL('static', 'plugins/croppie/croppie.css'))
+    response.files.insert(2, URL('static', 'plugins/croppie/croppie.min.js'))
+    response.files.insert(3, URL('static', 'plugins/croppie/upload_widget.js'))
 
     def widget(field, value, download_url=None, **attributes):
         """Generates an INPUT file tag.
@@ -190,10 +193,6 @@ def upload_widget(**settings):
             download_url: url for the file download (default = None)
         """
 
-        response.files.insert(1, URL('static', 'plugins/croppie/croppie.css'))
-        response.files.insert(2, URL('static', 'plugins/croppie/croppie.min.js'))
-        response.files.insert(3, URL('static', 'plugins/croppie/upload_widget.js'))
-
         modal = XML("""
         <div class="modal" id="croppie-modal" tabindex="-1" role="dialog" aria-labelledby="croppie-label">
           <div class="modal-dialog" role="document">
@@ -206,7 +205,6 @@ def upload_widget(**settings):
                 <div id="croppie" style="margin: 0 auto;" class="center-block"></div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" id="croppie-result">Save changes</button>
               </div>
             </div>
@@ -220,29 +218,29 @@ def upload_widget(**settings):
             _type='file',
             _style='display: none',
             _onchange="$('#upload-file-info').html(this.files[0].name);"
-                      # "inp=this;"
                       "initCroppie(this);"
-                      "$('#croppie-modal').modal('show');"
         )
         attributes = UploadWidget._attributes(field, default, **attributes)
 
         inp = DIV(
-            LABEL('Choose file...', INPUT(**attributes), _class='btn btn-default', _for=attributes['_id'], _role='button'),
+            LABEL('Choose image...', INPUT(**attributes), _class='btn btn-default', _for=attributes['_id'], _role='button'),
             SPAN(_class='label label-default', _id='upload-file-info', _style='margin-left: 5px;'),
         )
 
         if download_url and value:
+            if not UploadWidget.is_image(value):
+                raise Exception('Only images supported: set validator for the field "requires = IS_IMAGE()"')
+
             if callable(download_url):
                 url = download_url(value)
             else:
                 url = f'{download_url}/{value}'
-            image, delete_button, image_label, br = '', '', '', ''
-            if UploadWidget.is_image(value):
-                image = IMG(_src=url, _height='40px', _class='img-responsive')
+            delete_button, image_label, br = '', '', ''
+            image = IMG(_src=url, _height='40px', _class='img-responsive')
 
             requires = attributes["requires"]
 
-            # todo: style upload file other then images
+            # Add delete button if image upload field may be empty
             if requires == [] or isinstance(requires, IS_EMPTY_OR):
                 br = BR()
                 # Delete image button changes #image-label html content
@@ -291,7 +289,7 @@ def upload_widget(**settings):
     return widget
 
 
-def upload_represent(**settings):
+def upload_image_represent(**settings):
     """Custom image represent function with responsive image thumbnail
     """
 

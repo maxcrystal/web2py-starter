@@ -98,8 +98,8 @@ auth.settings.extra_fields['auth_user'] = [
         # todo: upload photo into blob field after my issue ticket at pydal #516 is solved
         requires=IS_EMPTY_OR([IS_IMAGE(maxsize=(10000, 10000), minsize=(50, 50)), IS_EMPTY_OR(RESIZE(128, 128))]),
         autodelete=True,
-        widget=upload_widget(),
-        represent=upload_represent(),
+        widget=upload_image_widget(),
+        represent=upload_image_represent(),
     ),
     Field(
         'sex',
