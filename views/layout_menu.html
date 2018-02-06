@@ -30,7 +30,7 @@
         </ul>
     </li>
 
-    <li class="treeview {{=user_visibility('admin')}}">
+    <li class="treeview {{=user_visibility('Admin')}}">
         {{=sidebar_menu_item('Admin', icon='cogs')}}
         <ul class="treeview-menu">
             {{=sidebar_menu_item('Manage Content', URL('content','list'), icon='file-alt')}}
@@ -38,7 +38,7 @@
         </ul>
     </li>
 
-    <li class="treeview {{=user_visibility('super admin')}}">
+    <li class="treeview {{=user_visibility('Admin')}}">
         {{=sidebar_menu_item('Super Admin', icon='cogs')}}
         <ul class="treeview-menu">
             {{=sidebar_menu_item('Manage Auth', URL('appadmin','manage/auth'), icon='wrench')}}

@@ -62,7 +62,7 @@
         e.preventDefault();
       });
     });
-  };
+  }
 
   $(function() {
     $(".nav ul.dropdown-menu").each(function() {
@@ -75,7 +75,7 @@
           .attr("data-toggle", "dropdown");
       } else {
         toggle.addClass("dropdown-submenu").removeClass("dropdown");
-      }
+      };
     });
   });
 

@@ -2,7 +2,7 @@
 <li id="messages-menu-load" class="dropdown messages-menu">
   <!-- Menu toggle button -->
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    <i class="fa fa-envelope"></i>
+    <i class="fa fa-envelope-o"></i>
     {{if len(unread_messages):}}
       <span class="label label-success">{{=len(unread_messages)}}</span>
     {{pass}}
@@ -27,7 +27,7 @@
             </div>
             <!-- Message title and timestamp -->
             <h4>
-              <small><i class="fa fa-clock"></i> {{=prettydate(msg.created_on, T)}}</small>
+              <small><i class="fa fa-clock-o"></i> {{=prettydate(msg.created_on, T)}}</small>
               <br>
               {{=msg.msg_sender}}
             </h4>
@@ -44,7 +44,7 @@
       <!-- /.menu -->
     </li>
     <li class="footer"><a href="{{=URL('message', 'list.html')}}"><i class="fa fa-list"></i> View Messages</a></li>
-    <li class="footer"><a href="{{=URL('message', 'create.html')}}"><i class="fa fa-edit"></i> Create Message</a></li>
+    <li class="footer"><a href="{{=URL('message', 'create.html')}}"><i class="fa fa-pencil-square-o"></i> Create Message</a></li>
   </ul>
 </li>
 <!-- /.messages-menu -->

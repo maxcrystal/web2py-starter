@@ -409,6 +409,7 @@ def user_photo(user):
     if user.photo:
         return URL('default', 'download', args=user.photo)
     elif user.sex:
+        # todo: add no_sex default avatar :)
         return URL('static', f'img/avatar_{user.sex.lower()}_1.png')
     else:
         return URL('static', 'img/boxed_bg.png')

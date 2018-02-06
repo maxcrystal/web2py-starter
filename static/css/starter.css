@@ -29,8 +29,3 @@
   padding-bottom: 0px;
   margin-bottom: 0;
 }
-
-/* remove border from flash messages */
-.w2p_flash {
-  border: none;
-}

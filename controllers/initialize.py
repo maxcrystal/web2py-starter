@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 if not request.is_local:
-    session.flash = 'Initialize controller works only for local requests'
     redirect(URL('default', 'index'))
 
 
@@ -11,12 +10,11 @@ def reset_auth():
     db.auth_membership.truncate()
 
     session.flash = 'Auth DBs are reset!'
-    return
+
+    redirect(URL('default', 'index'))
 
 
 def adminuser():
-    reset_auth()
-
     # http://stackoverflow.com/questions/10201300/how-can-i-create-new-auth-user-and-auth-group-on-web2py-running-on-google-app-en
     if not db().select(db.auth_user.ALL).first():
         db.auth_user.insert(
@@ -33,7 +31,7 @@ def adminuser():
         )
 
         authgroups()
-        # fixauthgroups()
+        fixauthgroups()
         # load_sample_data()
 
         session.flash = "Initialized!"

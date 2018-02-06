@@ -105,7 +105,6 @@ auth.settings.extra_fields['auth_user'] = [
         'sex',
         requires=IS_IN_SET(dal_list_genders),
         default='M',
-        required=True,
     )
 ]
 
