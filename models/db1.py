@@ -94,12 +94,14 @@ auth.settings.extra_fields['auth_user'] = [
     ),
     Field(
         'photo', 'upload',
-        # default=os.path.join(request.folder, 'static', 'img', 'avatar_m_1.png'),
-        # todo: upload photo into blob field after my issue ticket at pydal #516 is solved
         requires=IS_EMPTY_OR([IS_IMAGE(maxsize=(10000, 10000), minsize=(50, 50)), IS_EMPTY_OR(RESIZE(128, 128))]),
         autodelete=True,
         widget=upload_image_widget(),
         represent=upload_image_represent(),
+        uploadfield='photo_file',  # uploadfolder=os.path.join(request.folder, 'uploads', 'auth_user_photo'),
+    ),
+    Field(
+      'photo_file', 'blob',
     ),
     Field(
         'sex',
