@@ -88,7 +88,7 @@ function initCroppie(inp) {
                         $(e.currentTarget).trigger(e.type, true);
                     });
                 } else {
-                    // todo: check for possible error (missing <input> if the form is not reloaded (?)
+                    // todo: check for possible error (missing <input> if the form is not reloaded (?))
                 }
             });
         }
